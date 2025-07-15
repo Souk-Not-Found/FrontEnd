@@ -1,0 +1,8 @@
+<h2>Edit Profile</h2>
+<form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+  <input formControlName="name" placeholder="Name" />
+  <input formControlName="email" placeholder="Email" />
+  <input formControlName="mno" placeholder="Mobile" />
+  <input type="file" (change)="onFileChange($event)" />
+  <button type="submit">Update</button>
+</form>

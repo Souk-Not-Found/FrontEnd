@@ -1,0 +1,10 @@
+<div class="login-container">
+  <h2>User Login</h2>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <input formControlName="email" type="email" placeholder="Email" />
+    <input formControlName="password" type="password" placeholder="Password" />
+    <button type="submit">Login</button>
+  </form>
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+  <a routerLink="/user/forget">Forgot password?</a>
+</div>

@@ -1,0 +1,12 @@
+<div class="register-container">
+  <h2>User Registration</h2>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+    <input type="text" formControlName="name" placeholder="Name" />
+    <input type="email" formControlName="email" placeholder="Email" />
+    <input type="text" formControlName="mno" placeholder="Mobile" />
+    <input type="password" formControlName="password" placeholder="Password" />
+    <input type="file" (change)="onFileChange($event)" />
+    <button type="submit">Register</button>
+  </form>
+  <p *ngIf="message">{{ message }}</p>
+</div>
