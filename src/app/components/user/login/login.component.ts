@@ -11,24 +11,42 @@ import { UserService } from 'src/app/services/user';
 export class LoginComponent {
   loginForm: FormGroup;
   errorMessage = '';
+  isLoading = false;
 
-  constructor(private fb: FormBuilder, private userService: UserService, private router: Router) {
+
+  constructor(
+    private fb: FormBuilder,
+    private userService: UserService,
+    private router: Router
+  ) {
     this.loginForm = this.fb.group({
-      email: [''],
-      password: ['']
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
     });
   }
 
   onSubmit(): void {
-    if (this.loginForm.invalid) return;
+    if (this.loginForm.invalid) {
+      this.errorMessage = 'Please fill in all fields correctly.';
+      return;
+    }
+
+    this.isLoading = true;
 
     this.userService.login(this.loginForm.value).subscribe({
       next: (res: any) => {
-        // Store session or token if returned
-        this.router.navigate(['/user/home']);
-      },
+        if (res.user && res.user._id) {
+          localStorage.setItem('user_id', res.user._id); // ✅ Store user ID
+          this.router.navigate(['/user/home']);
+        } else {
+          this.errorMessage = 'Login succeeded but user ID missing.';
+        }
+      }
+      ,
       error: (err) => {
-        this.errorMessage = err.error.message || 'Login failed';
+        this.isLoading = false;
+        console.error(err);
+        this.errorMessage = err?.error?.message || 'Login failed. Please try again.';
       }
     });
   }

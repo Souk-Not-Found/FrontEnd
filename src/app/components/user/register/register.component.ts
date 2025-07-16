@@ -10,34 +10,58 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent {
   registerForm: FormGroup;
-  message = '';
   selectedFile: File | null = null;
+  message: string = '';
+  isLoading: boolean = false;
 
-  constructor(private fb: FormBuilder, private userService: UserService, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private userService: UserService,
+    private router: Router
+  ) {
     this.registerForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       mno: ['', Validators.required],
-      password: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(6)]],
       image: ['']
     });
   }
 
-  onFileChange(event: any) {
-    this.selectedFile = event.target.files[0];
+  onFileChange(event: Event): void {
+    const fileInput = event.target as HTMLInputElement;
+    if (fileInput.files && fileInput.files.length > 0) {
+      this.selectedFile = fileInput.files[0];
+    }
   }
 
-  onSubmit() {
+  onSubmit(): void {
+    if (this.registerForm.invalid) {
+      this.message = 'Please fill all required fields correctly.';
+      return;
+    }
+
+    this.isLoading = true;
     const formData = new FormData();
-    formData.append('name', this.registerForm.value.name);
-    formData.append('email', this.registerForm.value.email);
-    formData.append('mno', this.registerForm.value.mno);
-    formData.append('password', this.registerForm.value.password);
-    if (this.selectedFile) formData.append('image', this.selectedFile);
+    formData.append('name', this.registerForm.get('name')?.value);
+    formData.append('email', this.registerForm.get('email')?.value);
+    formData.append('mno', this.registerForm.get('mno')?.value);
+    formData.append('password', this.registerForm.get('password')?.value);
+    if (this.selectedFile) {
+      formData.append('image', this.selectedFile);
+    }
 
     this.userService.register(formData).subscribe({
-      next: (res: any) => this.message = res.message,
-      error: err => this.message = 'Registration failed'
+      next: (res: any) => {
+        this.message = res.message || 'Registration successful.';
+        this.isLoading = false;
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        console.error(err);
+        this.message = 'Registration failed. Please try again.';
+        this.isLoading = false;
+      }
     });
   }
 }

@@ -1,44 +1,57 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class UserService {
-  private apiUrl = `${environment.apiUrl}`;
+  private baseUrl = 'http://localhost:5001';
 
   constructor(private http: HttpClient) {}
 
-  register(data: any) {
-    return this.http.post(`${this.apiUrl}/register`, data);
+  // ✅ Register a new user
+  register(formData: FormData): Observable<any> {
+    return this.http.post(`${this.baseUrl}/register`, formData);
   }
 
-  login(data: any) {
-    return this.http.post(`${this.apiUrl}/login`, data);
+  // ✅ Login
+  login(credentials: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/login`, credentials);
   }
 
-  editProfile(data: any) {
-    return this.http.post(`${this.apiUrl}/edit`, data);
+  // ✅ Get profile by user ID
+  getProfile(userId: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/edit?id=${userId}`);
   }
 
-  getHome() {
-    return this.http.get(`${this.apiUrl}/home`);
+  // ✅ Update user profile
+  updateProfile(formData: FormData): Observable<any> {
+    return this.http.post(`${this.baseUrl}/edit`, formData);
   }
 
-  loadForgetPassword() {
-    return this.http.get(`${this.apiUrl}/forget`);
+  // ✅ Send reset link to email
+  sendResetLink(email: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/forget`, { email });
   }
 
-
-  forgetVerify(data: any) {
-    return this.http.post(`${this.apiUrl}/forget`, data);
+  // ✅ Reset password with token
+  resetPassword(data: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/forget-password`, data);
   }
 
-
-  loadResetPassword() {
-    return this.http.get(`${this.apiUrl}/forget-password`);
+  // ✅ Forget password verification (used for forget-password.component.ts)
+  forgetVerify(data: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/forget`, data);
   }
 
-  resetPassword(data: any) {
-    return this.http.post(`${this.apiUrl}/forget-password`, data);
+  // ✅ Fetch the logged-in user's home data
+  getHome(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/home`);
+  }
+
+  // ✅ Edit profile alias (if you're using editProfile instead of updateProfile in your component)
+  editProfile(formData: FormData): Observable<any> {
+    return this.http.post(`${this.baseUrl}/edit`, formData);
   }
 }

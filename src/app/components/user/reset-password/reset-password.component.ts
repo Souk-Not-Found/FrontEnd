@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user';
 
 @Component({
@@ -9,48 +9,46 @@ import { UserService } from 'src/app/services/user';
   styleUrls: ['./reset-password.component.css']
 })
 export class ResetPasswordComponent {
-
   form: FormGroup;
-  userId = '';
+  token: string = '';
   message = '';
   error = '';
 
   constructor(
-    private route: ActivatedRoute,
     private fb: FormBuilder,
+    private route: ActivatedRoute,
     private userService: UserService,
     private router: Router
   ) {
     this.form = this.fb.group({
       password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required]]
-    }, { validator: this.passwordMatchValidator });
+      confirmPassword: ['', Validators.required]
+    }, { validators: this.passwordsMatch });
 
-    this.userId = this.route.snapshot.queryParamMap.get('user_id') || '';
+    this.token = this.route.snapshot.queryParamMap.get('token') || '';
   }
 
-  passwordMatchValidator(group: FormGroup) {
+  passwordsMatch(group: FormGroup) {
     return group.get('password')!.value === group.get('confirmPassword')!.value
       ? null : { mismatch: true };
   }
 
   onSubmit() {
     if (this.form.invalid) {
-      this.error = 'Please fix the errors in the form.';
-      this.message = '';
+      this.error = 'Please fix the errors.';
       return;
     }
 
-    const data = { ...this.form.value, user_id: this.userId };
-    this.userService.resetPassword(data).subscribe({
-      next: () => {
-        this.message = 'Password reset successful! Redirecting to login...';
-        this.error = '';
-        setTimeout(() => this.router.navigate(['/user/login']), 2000);
+    this.userService.resetPassword({
+      token: this.token,
+      password: this.form.get('password')!.value
+    }).subscribe({
+      next: (res: any) => {
+        this.message = res.message || 'Password reset successful!';
+        setTimeout(() => this.router.navigate(['/user/login']), 3000);
       },
       error: (err) => {
-        this.message = '';
-        this.error = err?.error?.message || 'Failed to reset password.';
+        this.error = err.error.message || 'Reset password failed.';
       }
     });
   }

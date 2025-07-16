@@ -8,7 +8,6 @@ import { UserService } from 'src/app/services/user';
   styleUrls: ['./forget-password.component.css']
 })
 export class ForgetPasswordComponent {
-
   form: FormGroup;
   message = '';
   error = '';
@@ -19,7 +18,7 @@ export class ForgetPasswordComponent {
     });
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.form.invalid) {
       this.error = 'Please enter a valid email address.';
       this.message = '';
@@ -27,6 +26,8 @@ export class ForgetPasswordComponent {
     }
 
     this.error = '';
+    this.message = '';
+
     this.userService.forgetVerify(this.form.value).subscribe({
       next: (res: any) => {
         this.message = res.message || 'Reset email sent successfully.';

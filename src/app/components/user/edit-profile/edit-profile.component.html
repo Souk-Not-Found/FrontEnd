@@ -1,8 +1,21 @@
-<h2>Edit Profile</h2>
-<form [formGroup]="editForm" (ngSubmit)="onSubmit()">
-  <input formControlName="name" placeholder="Name" />
-  <input formControlName="email" placeholder="Email" />
-  <input formControlName="mno" placeholder="Mobile" />
-  <input type="file" (change)="onFileChange($event)" />
-  <button type="submit">Update</button>
-</form>
+<div class="edit-profile-container">
+  <h2>Edit Profile</h2>
+
+  <form [formGroup]="editForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+    <input formControlName="name" placeholder="Name" />
+    <div *ngIf="editForm.get('name')?.invalid && editForm.get('name')?.touched" class="error">Name is required.</div>
+
+    <input formControlName="email" placeholder="Email" />
+    <div *ngIf="editForm.get('email')?.invalid && editForm.get('email')?.touched" class="error">Valid email is required.</div>
+
+    <input formControlName="mno" placeholder="Mobile" />
+    <div *ngIf="editForm.get('mno')?.invalid && editForm.get('mno')?.touched" class="error">Mobile number is required.</div>
+
+    <input type="file" (change)="onFileChange($event)" />
+
+    <button type="submit">Update</button>
+  </form>
+
+  <p class="success" *ngIf="message">{{ message }}</p>
+  <p class="error" *ngIf="error">{{ error }}</p>
+</div>
