@@ -78,28 +78,28 @@ export interface FilterOptions {
   providedIn: 'root'
 })
 export class AnalyticsService {
-  private apiUrl = 'http://localhost:5003/api/analytics/';
+  private apiUrl = 'http://localhost:9000/event-analytics-service/api/analytics';
 
   constructor(private http: HttpClient) { }
 
   getAll(): Observable<Analytics[]> {
-    return this.http.get<Analytics[]>(this.apiUrl);
+    return this.http.get<Analytics[]>(`${this.apiUrl}/`);
   }
 
   getById(id: number): Observable<Analytics> {
-    return this.http.get<Analytics>(`${this.apiUrl}${id}`);
+    return this.http.get<Analytics>(`${this.apiUrl}/${id}`);
   }
 
   create(record: Analytics): Observable<Analytics> {
-    return this.http.post<Analytics>(this.apiUrl, record);
+    return this.http.post<Analytics>(`${this.apiUrl}/`, record);
   }
 
   update(id: number, record: Analytics): Observable<Analytics> {
-    return this.http.put<Analytics>(`${this.apiUrl}${id}`, record);
+    return this.http.put<Analytics>(`${this.apiUrl}/${id}`, record);
   }
 
   delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
   // Fetch average ratings grouped by organizer
