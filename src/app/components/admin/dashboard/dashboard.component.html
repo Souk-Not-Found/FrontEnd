@@ -1,1 +1,17 @@
-<p>dashboard works!</p>
+<h1>Welcome Admin</h1>
+<div class="dashboard-container">
+  <h2>Admin Dashboard</h2>
+
+  <div class="card" *ngIf="stats">
+    <p><strong>Total Users:</strong> {{ stats.totalUsers }}</p>
+    <p><strong>Active Users:</strong> {{ stats.activeUsers }}</p>
+    <p><strong>Pending Users:</strong> {{ stats.pendingUsers }}</p>
+  </div>
+
+  <div class="button-group">
+    <button class="admin-btn" routerLink="/admin/manage-users">Manage Users</button>
+    <button class="admin-btn" routerLink="/admin/add-user">Add User</button>
+    <button class="admin-btn" routerLink="/admin/user-stats">User Stats</button>
+    <button class="admin-btn logout" (click)="logout()">Logout</button>
+  </div>
+</div>

@@ -1,0 +1,62 @@
+.big-circle {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: #eee;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  margin: 40px auto;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  padding: 10px;
+}
+
+.stat-segment {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  margin: 10px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+  font-family: Arial, sans-serif;
+}
+
+.stat-number {
+  font-size: 2.6rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.stat-label {
+  font-size: 1rem;
+  margin-top: 6px;
+}
+
+/* Different colors for each segment */
+.total {
+  background-color: #4caf50; /* Green */
+}
+
+.active {
+  background-color: #2196f3; /* Blue */
+}
+
+.inactive {
+  background-color: #f44336; /* Red */
+}
+
+.new {
+  background-color: #ff9800; /* Orange */
+}
+
+.error {
+  color: red;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 20px;
+}

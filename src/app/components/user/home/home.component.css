@@ -12,3 +12,19 @@
 .btn-edit-profile:hover {
   background-color: #218838;
 }
+
+button {
+  padding: 10px 20px;
+  background-color: #e74c3c; /* red */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #c0392b; /* darker red on hover */
+}
+

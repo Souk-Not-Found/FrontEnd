@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class UserService {
   private baseUrl = 'http://localhost:5001';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // ✅ Register a new user
   register(formData: FormData): Observable<any> {
@@ -20,10 +20,6 @@ export class UserService {
     return this.http.post(`${this.baseUrl}/login`, credentials);
   }
 
-  // ✅ Get profile by user ID
-  getProfile(userId: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/edit?id=${userId}`);
-  }
 
   // ✅ Update user profile
   updateProfile(formData: FormData): Observable<any> {
@@ -54,4 +50,10 @@ export class UserService {
   editProfile(formData: FormData): Observable<any> {
     return this.http.post(`${this.baseUrl}/edit`, formData);
   }
+
+  getProfile(userId: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/profile/${userId}`);
+  }
+
+
 }

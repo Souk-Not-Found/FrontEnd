@@ -16,6 +16,8 @@ import { AddUserComponent } from './components/admin/add-user/add-user.component
 import { EditUserComponent } from './components/admin/edit-user/edit-user.component';
 import { ForgetPasswordComponent } from './components/user/forget-password/forget-password.component';
 import { ResetPasswordComponent } from './components/user/reset-password/reset-password.component';
+import { LoginAdminComponent } from './components/admin/login-admin/login-admin.component';
+import { UserStatsComponent } from './components/admin/user-stats/user-stats.component';
 
 
 @NgModule({
@@ -33,6 +35,8 @@ import { ResetPasswordComponent } from './components/user/reset-password/reset-p
     EditUserComponent,
     ForgetPasswordComponent,
     ResetPasswordComponent,
+    LoginAdminComponent,
+    UserStatsComponent,
 
 
   ],

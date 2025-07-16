@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { UserService } from 'src/app/services/user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-profile',
@@ -10,79 +10,79 @@ import { UserService } from 'src/app/services/user';
 })
 export class EditProfileComponent implements OnInit {
   editForm: FormGroup;
-  selectedFile: File | null = null;
-  message = '';
   error = '';
+  success = '';
+  message = '';
+  selectedFile: File | null = null;
 
-  constructor(
-    private fb: FormBuilder,
-    private userService: UserService,
-    private router: Router
-  ) {
+  constructor(private fb: FormBuilder, private userService: UserService , private router: Router) {
     this.editForm = this.fb.group({
       user_id: [''],
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      mno: ['', Validators.required]
+      name: [''],
+      email: [''],
+      mno: ['']
     });
   }
 
   ngOnInit(): void {
     const userId = localStorage.getItem('user_id');
-
-    if (userId) {
-      this.userService.getProfile(userId).subscribe({
-        next: (res: any) => {
-          console.log('Profile response:', res);
-          if (res?.user) {
-            this.editForm.patchValue({
-              user_id: res.user._id,
-              name: res.user.name,
-              email: res.user.email,
-              mno: res.user.mobile
-            });
-          } else {
-            this.error = 'Invalid user data received.';
-          }
-        },
-        error: (err) => {
-          console.error('Error loading profile:', err);
-          this.error = 'Failed to load profile data.';
-        }
-      });
-    } else {
-      this.error = 'User ID not found. Please log in again.';
-    }
-  }
-
-  onFileChange(event: any): void {
-    this.selectedFile = event.target.files[0];
-  }
-
-  onSubmit(): void {
-    if (this.editForm.invalid) {
-      this.error = 'Please complete the form correctly.';
+    if (!userId) {
+      this.error = 'User ID not found.';
       return;
     }
 
-    const formData = new FormData();
-    Object.keys(this.editForm.value).forEach(key => {
-      formData.append(key, this.editForm.value[key]);
-    });
-
-    if (this.selectedFile) {
-      formData.append('image', this.selectedFile);
-    }
-
-    this.userService.editProfile(formData).subscribe({
-      next: () => {
-        this.message = 'Profile updated successfully.';
-        setTimeout(() => this.router.navigate(['/user/home']), 1500);
+    this.userService.getProfile(userId).subscribe({
+      next: (res) => {
+        if (res.user) {
+          this.editForm.patchValue({
+            user_id: res.user._id,
+            name: res.user.name,
+            email: res.user.email,
+            mno: res.user.mobile
+          });
+        } else {
+          this.error = 'Invalid user data received.';
+        }
       },
       error: (err) => {
-        console.error('Update failed:', err);
-        this.error = 'Update failed. Please try again.';
+        console.error(err);
+        this.error = 'Failed to fetch user data.';
       }
     });
+  }
+
+  onFileChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+    }
+  }
+
+  onSubmit(): void {
+    const formData = new FormData();
+    formData.append('user_id', this.editForm.value.user_id);
+    formData.append('name', this.editForm.value.name);
+    formData.append('email', this.editForm.value.email);
+    formData.append('mno', this.editForm.value.mno);
+
+    if (this.selectedFile) {
+      formData.append('image', this.selectedFile); // adjust field name based on backend
+    }
+
+    this.userService.updateProfile(formData).subscribe({
+  next: (res) => {
+    this.message = res.message;
+    this.error = '';
+
+    // redirect to /home
+    this.router.navigate(['user/home']);
+  },
+  error: (err) => {
+    console.error(err);
+    this.error = 'Update failed.';
+    this.message = '';
+  }
+});
+
   }
 }

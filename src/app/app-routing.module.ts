@@ -13,7 +13,8 @@ import { AddUserComponent } from './components/admin/add-user/add-user.component
 import { EditUserComponent } from './components/admin/edit-user/edit-user.component';
 import { ForgetPasswordComponent } from './components/user/forget-password/forget-password.component';
 import { ResetPasswordComponent } from './components/user/reset-password/reset-password.component';
-
+import { LoginAdminComponent } from './components/admin/login-admin/login-admin.component';
+import { UserStatsComponent } from './components/admin/user-stats/user-stats.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'user/login', pathMatch: 'full' },
@@ -28,10 +29,13 @@ const routes: Routes = [
   { path: 'user/reset-password', component: ResetPasswordComponent },
 
   // Admin
+  { path: 'admin/login', component: LoginAdminComponent },
   { path: 'admin/dashboard', component: DashboardComponent },
   { path: 'admin/manage-users', component: ManageUsersComponent },
   { path: 'admin/add-user', component: AddUserComponent },
   { path: 'admin/edit-user/:id', component: EditUserComponent },
+  { path: 'admin/user-stats', component: UserStatsComponent },
+
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
