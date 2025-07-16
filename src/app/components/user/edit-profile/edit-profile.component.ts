@@ -33,6 +33,7 @@ export class EditProfileComponent implements OnInit {
     if (userId) {
       this.userService.getProfile(userId).subscribe({
         next: (res: any) => {
+          console.log('Profile response:', res);
           if (res?.user) {
             this.editForm.patchValue({
               user_id: res.user._id,
