@@ -18,6 +18,8 @@ import { ForgetPasswordComponent } from './components/user/forget-password/forge
 import { ResetPasswordComponent } from './components/user/reset-password/reset-password.component';
 import { LoginAdminComponent } from './components/admin/login-admin/login-admin.component';
 import { UserStatsComponent } from './components/admin/user-stats/user-stats.component';
+import { NgChartsModule } from 'ng2-charts';
+
 
 
 @NgModule({
@@ -45,7 +47,8 @@ import { UserStatsComponent } from './components/admin/user-stats/user-stats.com
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

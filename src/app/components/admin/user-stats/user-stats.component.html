@@ -1,19 +1,11 @@
-<div class="big-circle" *ngIf="stats; else loadingOrError">
-  <div class="stat-segment total">
-    <p class="stat-number">{{ stats.totalUsers }}</p>
-    <p class="stat-label">Total Users</p>
-  </div>
-  <div class="stat-segment active">
-    <p class="stat-number">{{ stats.activeUsers }}</p>
-    <p class="stat-label">Active Users</p>
-  </div>
-  <div class="stat-segment inactive">
-    <p class="stat-number">{{ stats.inactiveUsers }}</p>
-    <p class="stat-label">Inactive Users</p>
-  </div>
-  <div class="stat-segment new">
-    <p class="stat-number">{{ stats.newUsersThisWeek }}</p>
-    <p class="stat-label">New This Week</p>
+<!-- <div *ngIf="stats; else loadingOrError" style="width: 300px; margin: auto;">
+  <canvas baseChart
+          [data]="pieChartData"
+          [chartType]="pieChartType"
+          [options]="chartOptions">
+  </canvas>
+  <div style="text-align:center; margin-top: 10px;">
+    <p>Total Users: {{ stats.totalUsers }}</p>
   </div>
 </div>
 
@@ -21,3 +13,4 @@
   <div *ngIf="error" class="error">{{ error }}</div>
   <div *ngIf="!error">Loading user statistics...</div>
 </ng-template>
+ -->

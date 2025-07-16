@@ -23,7 +23,7 @@ stats: any = {};
 
   logout() {
   localStorage.removeItem('user_id');
-  this.router.navigate(['/admin']);  // redirect to login page
+  this.router.navigate(['/admin/login']);  // redirect to login page
 }
 
 
