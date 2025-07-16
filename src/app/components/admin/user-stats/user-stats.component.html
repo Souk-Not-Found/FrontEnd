@@ -1,7 +1,8 @@
-<!-- <div *ngIf="stats; else loadingOrError" style="width: 300px; margin: auto;">
+<div *ngIf="stats; else loadingOrError" style="width: 300px; margin: auto;">
   <canvas baseChart
           [data]="pieChartData"
-          [chartType]="pieChartType"
+          [labels]="pieChartLabels"
+          [type]="'doughnut'"
           [options]="chartOptions">
   </canvas>
   <div style="text-align:center; margin-top: 10px;">
@@ -13,4 +14,3 @@
   <div *ngIf="error" class="error">{{ error }}</div>
   <div *ngIf="!error">Loading user statistics...</div>
 </ng-template>
- -->

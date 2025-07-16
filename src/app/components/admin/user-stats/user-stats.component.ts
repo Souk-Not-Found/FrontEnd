@@ -11,7 +11,7 @@ export class UserStatsComponent implements OnInit {
 
   stats: any = null;  // Your real stats will come asynchronously
   error: string | null = null;
-
+Users="Users";
   // Chart data and config
   public pieChartLabels = ['Active Users', 'Inactive Users', 'New This Week'];
   public pieChartType: ChartType = 'doughnut';
