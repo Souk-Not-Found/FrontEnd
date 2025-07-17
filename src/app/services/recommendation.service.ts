@@ -7,12 +7,12 @@ import { Event } from '../models/event';
   providedIn: 'root'
 })
 export class RecommendationService {
-  private apiUrl = 'http://localhost:5000'; // Base URL for Flask API
+  private apiUrl = 'http://localhost:9000'; // Base URL for Flask API
 
   constructor(private http: HttpClient) { }
 
   getAIRecommendations(category?: string, location?: string): Observable<Event[]> {
-    return this.http.get<Event[]>(`${this.apiUrl}/events/recommend`, {
+    return this.http.get<Event[]>(`${this.apiUrl}/recommendation_events/recommend`, {
       params: {
         category: category || '',
         location: location || ''
@@ -21,38 +21,38 @@ export class RecommendationService {
   }
 
   getAllEvents(): Observable<Event[]> {
-    return this.http.get<Event[]>(`${this.apiUrl}/events`);
+    return this.http.get<Event[]>(`${this.apiUrl}/recommendation_events`);
   }
 
   getEventById(id: number): Observable<Event> {
-    return this.http.get<Event>(`${this.apiUrl}/events/${id}`);
+    return this.http.get<Event>(`${this.apiUrl}/recommendation_events/${id}`);
   }
 
   createEvent(event: Event): Observable<Event> {
-    return this.http.post<Event>(`${this.apiUrl}/events`, event);
+    return this.http.post<Event>(`${this.apiUrl}/recommendation_events`, event);
   }
 
   updateEvent(id: number, event: Event): Observable<Event> {
-    return this.http.put<Event>(`${this.apiUrl}/events/${id}`, event);
+    return this.http.put<Event>(`${this.apiUrl}/recommendation_events/${id}`, event);
   }
 
   deleteEvent(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/events/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/recommendation_events/${id}`);
   }
 
   getSimilarEvents(eventId: number): Observable<Event[]> {
-    return this.http.get<Event[]>(`${this.apiUrl}/events/recommend/${eventId}`);
+    return this.http.get<Event[]>(`${this.apiUrl}/recommendation_events/recommend/${eventId}`);
   }
 
   searchByTitle(keyword: string): Observable<Event[]> {
-    return this.http.get<Event[]>(`${this.apiUrl}/events/search/${keyword}`);
+    return this.http.get<Event[]>(`${this.apiUrl}/recommendation_events/search/${keyword}`);
   }
 
   filterByCategory(category: string): Observable<Event[]> {
-    return this.http.get<Event[]>(`${this.apiUrl}/events/filter/category/${category}`);
+    return this.http.get<Event[]>(`${this.apiUrl}/recommendation_events/filter/category/${category}`);
   }
 
   filterByLocation(location: string): Observable<Event[]> {
-    return this.http.get<Event[]>(`${this.apiUrl}/events/filter/location/${location}`);
+    return this.http.get<Event[]>(`${this.apiUrl}/recommendation_events/filter/location/${location}`);
   }
 }
